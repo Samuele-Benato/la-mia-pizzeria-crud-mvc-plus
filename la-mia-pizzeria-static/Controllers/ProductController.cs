@@ -15,9 +15,17 @@ namespace la_mia_pizzeria_static.Controllers
             _logger = logger;
         }  
         
-        public IActionResult Index()
+        public IActionResult Index(int? categoryId)
         {
-            return View(ProductManager.GetProducts());    
+            if (!categoryId.HasValue)
+            {
+                return View(ProductManager.GetProducts());
+            }
+            else
+            {
+                var products = ProductManager.GetProducts().Where(p => p.CategoryId == categoryId.Value);
+                return View(products);
+            }
         }
 
         public IActionResult Details(int id)
