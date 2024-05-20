@@ -12,8 +12,8 @@ using la_mia_pizzeria_static.Data;
 namespace la_mia_pizzeria_static.Migrations
 {
     [DbContext(typeof(ProductContext))]
-    [Migration("20240520124657_UpdateEntityAddCategory")]
-    partial class UpdateEntityAddCategory
+    [Migration("20240520144315_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
