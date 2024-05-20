@@ -35,5 +35,15 @@ namespace la_mia_pizzeria_static.Models
             Image = image ?? "~/img/Marghe-pizza-bufala.webp";
             Price = price;
         }
+
+        public string GetCategory()
+        {
+            if (Category == null)
+                return "Nessuna categoria";
+            return Category.Name;
+
+            // Versione più sintetica:
+            //return Category?.Title ?? "Nessuna categoria";
+        }
     }
 }
