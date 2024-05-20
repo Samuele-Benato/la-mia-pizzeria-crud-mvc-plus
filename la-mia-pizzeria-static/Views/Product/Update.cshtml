@@ -1,4 +1,4 @@
-﻿@model Product;
+﻿@model ProductFormModel;
 @{
     ViewData["Title"] = "Update Page";
     Layout = "_MyLayout";
@@ -19,31 +19,51 @@
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-column justify-content-center">
-                <form asp-controller="Pizza" asp-action="Update" asp-route-id="@Model.Id" method="post">
+                <form asp-controller="Product" asp-action="Update" asp-route-id="@Model.Product.Id" method="post">
                     @Html.AntiForgeryToken()
                     <div class="mb-3">
-                        <h2>Update your Amazing Pizza</h2>
+                        <h2>Update your Amazing Creation</h2>
 
                     </div>
                     <div class="mb-3">
-                        <strong>Nome:</strong>
-                        <input asp-for="Name" class="custom-form-control d-block w-100" type="text" />
-                        <strong><span asp-validation-for="Name" class="text-muted"></span></strong>
+                        <div class="d-inline-block w-49">
+                            <strong>Nome:</strong>
+                            <input asp-for="Product.Name" class="custom-form-control d-block w-100" type="text" />
+                            <strong><span asp-validation-for="Product.Name" class="text-muted"></span></strong>
+                        </div>
+
+                        <div class="d-inline-block w-49">
+                            <strong>Categoria:</strong>
+                            <select asp-for="Product.CategoryId" rows="10" class="custom-form-control d-block w-100">
+                                <option value=""></option>
+                                @foreach (Category category in Model.Categories)
+                                {
+                                    @if (Model.Product.CategoryId == category.Id)
+                                    {
+                                        <option value="@category.Id" selected>@category.Name</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@category.Id">@category.Name</option>
+                                    }
+                                }
+                            </select>
+                        </div>
                     </div>
                     <div class="mb-3">
                         <strong class="mb-2">Descrizione:</strong>
-                        <textarea asp-for="Description" class="custom-form-control d-block w-100" style="resize: none; height: 60px;" rows="3" maxlength="1000"></textarea>
-                        <strong><span asp-validation-for="Description" class="text-muted"></span></strong>
+                        <textarea asp-for="Product.Description" class="custom-form-control d-block w-100" style="resize: none; height: 60px;" rows="3" maxlength="1000"></textarea>
+                        <strong><span asp-validation-for="Product.Description" class="text-muted"></span></strong>
                     </div>
                     <div class="mb-3">
                         <strong>Immagine:</strong>
-                        <input asp-for="Image" class="custom-form-control d-block w-100" type="text" />
+                        <input asp-for="Product.Image" class="custom-form-control d-block w-100" type="text" />
                     </div> 
                     <div class="mb-3">
                         <div class="d-inline-block w-58">
                             <strong class="d-block">Prezzo:</strong>
-                            <input asp-for="Price" type="text" class="custom-form-control w-100" />
-                            <strong><span asp-validation-for="Price" class="text-muted"></span></strong>
+                            <input asp-for="Product.Price" type="text" class="custom-form-control w-100" />
+                            <strong><span asp-validation-for="Product.Price" class="text-muted"></span></strong>
                         </div>
 
                         <div class="d-inline-block w-40 text-end">
@@ -76,6 +96,10 @@
 
     .w-58 {
         width: 58%;
+    }
+
+    .w-49 {
+        width: 49%;
     }
 
     .w-40 {

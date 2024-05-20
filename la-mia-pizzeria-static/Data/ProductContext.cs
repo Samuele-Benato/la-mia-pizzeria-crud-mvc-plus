@@ -6,7 +6,7 @@ namespace la_mia_pizzeria_static.Data
     public class ProductContext : DbContext
     {
         public DbSet<Product> Products { get; set; }
-        //public DbSet<Pizzeria> Pizzerias { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

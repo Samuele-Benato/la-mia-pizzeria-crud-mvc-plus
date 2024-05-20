@@ -10,10 +10,21 @@ namespace la_mia_pizzeria_static.Data
             using ProductContext db = new ProductContext();
             return db.Products.Count();
         }
+        public static int CountCategories()
+        {
+            using ProductContext db = new ProductContext();
+            return db.Categories.Count();
+        }
         public static List<Product> GetProducts()
         {
             using (ProductContext db = new ProductContext())  
             return db.Products.ToList();
+        }
+
+        public static List<Category> GetCategories()
+        {
+            using (ProductContext db = new ProductContext())
+                return db.Categories.ToList();
         }
 
         public static Product GetProduct(int id)
@@ -27,6 +38,12 @@ namespace la_mia_pizzeria_static.Data
             using ProductContext db = new ProductContext();
             product.Image ??= "/img/Marghe-pizza-bufala.webp";
             db.Products.Add(product);
+            db.SaveChanges();
+        }
+        public static void InsertCategory(Category category)
+        {
+            using ProductContext db = new ProductContext();        
+            db.Categories.Add(category);
             db.SaveChanges();
         }
 
@@ -70,6 +87,16 @@ namespace la_mia_pizzeria_static.Data
                 InsertProduct(new Product("DIAVOLA GIALLA", "Passata di pomodorini del Piannolo del Vesuvio gialli, fior di latte d’Agerola, salamino piccante di Secondigliano, fili di peperoncino, nduja, basilico fresco, olio extravergine d’oliva", "~/img/Marghe-Diavola.webp", 12.50));
                 InsertProduct(new Product("MELANZANE E PORCHETTA", "Crema di melanzane cotte al forno, fior di latte, provola affumicata, porchetta d’Ariccia, taralli pugliesi, crema di pomodorini, rosmarino, olio extravergine d’oliva", "~/img/Marghe-Melanzane-e-porchetta.webp", 11.50));
             }
+
+            if (CountCategories() == 0)
+            {
+                InsertCategory(new Category("ANTIPASTI"));
+                InsertCategory(new Category("PIZZE"));
+                InsertCategory(new Category("DOLCI"));
+                InsertCategory(new Category("BEVANDE"));
+                
+            }
         }
+
     }
 }

@@ -17,7 +17,7 @@
         <div class="d-flex align-items-center justify-content-around mb-4">
             <a href="@Url.Action("Index", "Product")"><img style="width: 100px; aspect-ratio:auto;" src="~/svg/back-d.svg" /></a>
             <a href="@Url.Action("Update", "Product", new { id = Model.Id })"><img style="width: 100px; aspect-ratio:auto;" src="~/svg/update-d.svg" /></a>
-            <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+            <form asp-controller="Product" asp-action="Delete" asp-route-id="@Model.Id" method="post">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="border-0 delete-button">
                     <img src="~/svg/delete-d.svg" style="width: 100px; aspect-ratio:auto;" />
@@ -27,7 +27,7 @@
 
         <div class="row">
             <div class="col-md-6 offset-md-3">
-                <div class="pizza">
+                <div class="product">
                     <img src="@Url.Content(Model.Image)" />
                     <h4 class="pt-3">@Model.Name</h4>
                     <p>@Model.Description</p>
@@ -37,7 +37,7 @@
         </div>
     </div>
     <style>
-        .pizza {
+        .product {
             display: flex;
             flex-direction: column;
             padding: 15px;
@@ -45,13 +45,13 @@
             align-items:center;
         }
 
-            .pizza img {
+            .product img {
                 width: 200px;
                 height: 200px;
                 margin-bottom: 10px;
             }
 
-            .pizza p {
+            .product p {
                 margin-bottom: 10px;
             }
 

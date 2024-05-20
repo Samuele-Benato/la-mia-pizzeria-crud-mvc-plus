@@ -32,19 +32,22 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Create()
         {
-            return View();
+            ProductFormModel model = new ProductFormModel();
+            model.Product = new Product();
+            model.Categories = ProductManager.GetCategories();
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Product data)
+        public IActionResult Create(ProductFormModel data)
         {
             if (!ModelState.IsValid)
             {
                 return View("Create", data);
             }
 
-            ProductManager.InsertProduct(data);
+            ProductManager.InsertProduct(data.Product);
            
             return RedirectToAction("Index");
         }
@@ -52,8 +55,6 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpGet]
         public IActionResult Update(int id)
         {
-            // Prendo il post AGGIORNATO da database, non
-            // uno passato da utente alla action
             var productToEdit = ProductManager.GetProduct(id);
 
             if (productToEdit == null)
@@ -62,13 +63,14 @@ namespace la_mia_pizzeria_static.Controllers
             }
             else
             {
-                return View(productToEdit);
+                ProductFormModel model = new ProductFormModel(productToEdit, ProductManager.GetCategories());
+                return View(model);
             }
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Update(int id, Product data)
+        public IActionResult Update(int id, ProductFormModel data)
         {
             if (!ModelState.IsValid)
             {
@@ -78,10 +80,11 @@ namespace la_mia_pizzeria_static.Controllers
             // MODIFICA TRAMITE LAMBDA
             bool result = ProductManager.UpdateProduct(id, productToEdit =>
             {
-                productToEdit.Name = data.Name;
-                productToEdit.Description = data.Description;
-                productToEdit.Price = data.Price;
-              //  pizzaToEdit.Image = data.Image;
+                productToEdit.Name = data.Product.Name;
+                productToEdit.Description = data.Product.Description;
+                productToEdit.Price = data.Product.Price;
+                productToEdit.CategoryId = data.Product.CategoryId;
+                //  productToEdit.Image = data.Product.Image;
             });
 
             if (result == true)

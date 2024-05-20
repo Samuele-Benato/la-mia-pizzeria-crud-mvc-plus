@@ -14,7 +14,10 @@ namespace la_mia_pizzeria_static.Models
         [Required(ErrorMessage = "Il campo è obbligatorio")]
         [MinWords(5)]
         public string Description { get; set; }
-       
+
+        public int? CategoryId { get; set; }
+        public Category? Category { get; set; }
+
         //public IFormFile ImageFile { get; set; }
         public string? Image { get; set; }
 

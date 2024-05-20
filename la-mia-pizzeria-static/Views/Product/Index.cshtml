@@ -21,7 +21,7 @@
             @foreach (var product in Model)
             {
                 <div class="col-md-4">
-                    <div class="pizza">
+                    <div class="product">
                         <img src="@Url.Content(product.Image)" />
                         <div class="d-flex">
                             <h4 class="pt-3">@product.Name</h4>
@@ -37,19 +37,19 @@
         </div>
     </div>
     <style>
-        .pizza {
+        .product {
             display: flex;
             flex-direction: column;
             height: 100%;
             padding: 15px;
         }
 
-            .pizza img {
+            .product img {
                 width: 150px;
                 height: 150px;
             }
 
-            .pizza p {
+            .product p {
                 flex-grow: 1;
             }
     </style>
