@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Ovo&display=swap">
+    <link rel="icon" href="~/img/favicon.svg" type="image/svg">
+</head>
+<body style="background: #E3DCC9">
+    <header class="bg-black border-bottom box-shadow-3 fixed-top">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm pb-1 pt-1 container">
+            <div class="container-fluid">
+                <a class="navbar-brand text-white" asp-area="" asp-controller="Pizza" asp-action="Index"><img style="height: 50px; aspect-ratio:1;" src="~/img/logo.png"/></a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button> 
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link lightbeige" asp-area="" asp-controller="Product" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link lightbeige" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link lightbeige" asp-area="" asp-controller="Product" asp-action="Create">Create</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div>
+        @RenderBody()
+    </div>
+    <footer class="border-custom footer ">
+        <div class="container pt-2 pb-2">
+            <span>&copy; 2024 - Pizzeria da Samu</span>
+        </div>
+    </footer>
+</body>
+
+<style>
+    body {
+        font-family: 'Ovo', sans-serif;
+    }
+
+    .nav-link.lightbeige {
+        color: #E3DCC9;
+        position: relative; 
+        text-decoration: none;
+    }
+
+        .nav-link.lightbeige::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0px;
+            width: 0;
+            height: 2px; 
+            background-color: #ff0000;
+            transition: width 0.5s ease; 
+        }
+
+        .nav-link.lightbeige:hover::after {
+            width: 100%;
+        }
+        .border-custom{
+        border-top: 1px solid #4B4B4B;
+        color: #4B4B4B;
+        }
+</style>
+</html>

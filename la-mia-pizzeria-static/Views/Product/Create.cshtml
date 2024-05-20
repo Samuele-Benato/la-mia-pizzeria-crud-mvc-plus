@@ -1,0 +1,87 @@
+﻿@model Product;
+@{
+    ViewData["Title"] = "Create Page";
+    Layout = "_MyLayout";
+}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pizzeria da Samu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container margin-top">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="d-flex justify-content-center">
+                    <img src="~/svg/Create.svg" style="width: 80%; aspect-ratio:auto;" />
+                </div>
+            </div>
+            <div class="col-md-6 d-flex flex-column justify-content-center">
+                <form asp-controller="Pizza" asp-action="Create" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="mb-3">
+                        <h2>Create your Unique Pizza</h2>
+                        
+                    </div>
+                    <div class="mb-3">
+                        <strong>Nome:</strong>
+                        <input asp-for="Name" class="custom-form-control d-block w-100" type="text" />
+                        <strong><span asp-validation-for="Name" class="text-muted"></span></strong>
+                    </div>
+                    <div class="mb-3">
+                        <strong class="mb-2">Descrizione:</strong>
+                        <textarea asp-for="Description" class="custom-form-control d-block w-100" style="resize: none; height: 60px;" rows="3" maxlength="1000"></textarea>
+                        <strong><span asp-validation-for="Description" class="text-muted"></span></strong>
+                    </div>
+                     <div class="mb-3">
+                        <strong>Immagine:</strong>
+                        <input asp-for="Image" class="custom-form-control d-block w-100" type="text" />
+                    </div> 
+                    <div class="mb-3">
+                        <div class="d-inline-block w-58">
+                            <strong class="d-block">Prezzo:</strong>
+                            <input asp-for="Price" type="number" class="custom-form-control w-100" />
+                            <strong><span asp-validation-for="Price" class="text-muted"></span></strong>
+                        </div>
+                       
+                        <div class="d-inline-block w-40 text-end">
+                            <button type="submit" class="border-0 save-button">
+                                <img src="~/svg/save.svg" style="width: 100px; aspect-ratio:auto;" />
+                            </button>
+                        </div>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+<style>
+    .margin-top {
+        margin-top: 75px;
+    }
+
+    .custom-form-control{
+        padding: .3rem;
+        background-color: #E3DCC9;
+        font-weight: 400;
+        line-height: 1.5;
+        border: 1px solid black;
+        border-radius: 5px;
+    }
+    .w-58{
+        width: 58%;
+    }
+    .w-40{
+        width: 40%;
+    }
+
+    .save-button{
+        background: none;
+    }
+</style>
+</html>
