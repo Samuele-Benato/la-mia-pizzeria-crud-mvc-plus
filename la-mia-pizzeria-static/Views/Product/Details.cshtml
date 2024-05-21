@@ -31,8 +31,15 @@
                 <div class="product">
                     <img src="@Url.Content(Model.Image)" />
                     <h4 class="pt-3">@Model.Name</h4>
-                    <p>@Model.Description</p>
-                    <div>@Model.Price €</div>
+                    <div>
+                        @foreach (var ingredient in Model.Ingredients)
+                        {
+                            <span class="ms-1 me-1 ingredient">
+                                | @ingredient.Name |
+                            </span>
+                        }
+                    </div>                 
+                    <div class="price">@Model.Price €</div>
                 </div>
             </div>
         </div>
@@ -56,10 +63,15 @@
                 margin-bottom: 10px;
             }
 
-            .product div {
+            .product .price {
                 font-size: 1.15rem;
                 font-weight: 600;
             }
+
+        .ingredient{
+            font-size: 1.075rem;
+            font-weight: 500;
+        }
 
         .delete-button{
             background:none;
