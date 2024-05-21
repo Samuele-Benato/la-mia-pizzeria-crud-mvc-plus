@@ -16,6 +16,11 @@ namespace la_mia_pizzeria_static.Data
             using ProductContext db = new ProductContext();
             return db.Categories.Count();
         }
+        public static int CountIngredients()
+        {
+            using ProductContext db = new ProductContext();
+            return db.Ingredients.Count();
+        }
         public static List<Product> GetProducts()
         {
             using (ProductContext db = new ProductContext())  
@@ -27,20 +32,36 @@ namespace la_mia_pizzeria_static.Data
             using (ProductContext db = new ProductContext())
                 return db.Categories.ToList();
         }
+        public static List<Ingredient> GetIngredients()
+        {
+            using (ProductContext db = new ProductContext())
+                return db.Ingredients.ToList();
+        }
 
         public static Product GetProduct(int id, bool includereferences = true)
         {
             using (ProductContext db = new ProductContext())             
             if (includereferences)
-                    return db.Products.Where(r => r.Id == id).Include(c => c.Category).FirstOrDefault();
+                    return db.Products.Where(r => r.Id == id).Include(c => c.Category).Include(i => i.Ingredients).FirstOrDefault();
 
             using (ProductContext db = new ProductContext())
                 return db.Products.FirstOrDefault(p => p.Id == id);
         }
 
-        public static void InsertProduct(Product product)
+        public static void InsertProduct(Product product, List<string> SelectedIngredients = null)
         {
             using ProductContext db = new ProductContext();
+            if (SelectedIngredients != null)
+            {
+                product.Ingredients = new List<Ingredient>();
+                
+                foreach (var IngredientId in SelectedIngredients)
+                {
+                    int id = int.Parse(IngredientId);
+                    var Ingredient = db.Ingredients.FirstOrDefault(i => i.Id == id); 
+                    product.Ingredients.Add(Ingredient);
+                }
+            }
             product.Image ??= "/img/Marghe-pizza-bufala.webp";
             db.Products.Add(product);
             db.SaveChanges();
@@ -52,15 +73,37 @@ namespace la_mia_pizzeria_static.Data
             db.SaveChanges();
         }
 
-        public static bool UpdateProduct(int id, Action<Product> edit)
+        public static void InsertIngredient(Ingredient ingredient)
         {
             using ProductContext db = new ProductContext();
-            var product = db.Products.FirstOrDefault(p => p.Id == id);
+            db.Ingredients.Add(ingredient);
+            db.SaveChanges();
+        }
+
+        public static bool UpdateProduct(int id, string name,
+            string description, double price, int? categoryId, List<string> ingredients)
+        {
+            using ProductContext db = new ProductContext();
+            var product = db.Products.Where(x => x.Id == id).Include(x => x.Ingredients).FirstOrDefault();
 
             if (product == null)
                 return false;
 
-            edit(product);
+            product.Name = name;
+            product.Description = description;
+            product.Price = price;
+            product.CategoryId = categoryId;
+
+            product.Ingredients.Clear(); // Prima svuoto così da salvare solo le informazioni che l'utente ha scelto, NON le aggiungiamo ai vecchi dati
+            if (ingredients != null)
+            {
+                foreach (var ingredient in ingredients)
+                {
+                    int ingredientId = int.Parse(ingredient);
+                    var ingredientFromDb = db.Ingredients.FirstOrDefault(x => x.Id == ingredientId);
+                    product.Ingredients.Add(ingredientFromDb);
+                }
+            }
 
             db.SaveChanges();
 
@@ -115,6 +158,40 @@ namespace la_mia_pizzeria_static.Data
                 InsertCategory(new Category("DOLCI"));
                 InsertCategory(new Category("BEVANDE"));
                 
+            }
+
+            if (CountIngredients() == 0)
+            {
+                InsertIngredient(new Ingredient("pomodoro San Marzano Dop"));
+                InsertIngredient(new Ingredient("Parmigiano Reggiano 30 mesi"));
+                InsertIngredient(new Ingredient("basilico"));
+                InsertIngredient(new Ingredient("pane cotto al forno a legna"));
+                InsertIngredient(new Ingredient("pepe nero"));
+                InsertIngredient(new Ingredient("olio extravergine d’oliva"));
+                InsertIngredient(new Ingredient("datterini"));
+                InsertIngredient(new Ingredient("bufala Dop"));
+                InsertIngredient(new Ingredient("provola affumicata"));
+                InsertIngredient(new Ingredient("melanzane al forno"));
+                InsertIngredient(new Ingredient("pomodorini semi dry"));
+                InsertIngredient(new Ingredient("ricotta salata"));
+                InsertIngredient(new Ingredient("alici di Cetara"));
+                InsertIngredient(new Ingredient("olive caiazzane"));
+                InsertIngredient(new Ingredient("capperi di Salina"));
+                InsertIngredient(new Ingredient("origano"));
+                InsertIngredient(new Ingredient("salamino piccante"));
+                InsertIngredient(new Ingredient("fili di peperoncino"));
+                InsertIngredient(new Ingredient("nduja"));
+                InsertIngredient(new Ingredient("porchetta"));
+                InsertIngredient(new Ingredient("taralli"));
+                InsertIngredient(new Ingredient("rosmarino"));
+                InsertIngredient(new Ingredient("savoiardi"));
+                InsertIngredient(new Ingredient("ricotta di bufala"));
+                InsertIngredient(new Ingredient("mascarpone"));
+                InsertIngredient(new Ingredient("cacao amaro"));
+                InsertIngredient(new Ingredient("cialda"));
+                InsertIngredient(new Ingredient("ricotta di pecora"));
+                InsertIngredient(new Ingredient("gocce di cioccolato fondente"));
+
             }
         }
 

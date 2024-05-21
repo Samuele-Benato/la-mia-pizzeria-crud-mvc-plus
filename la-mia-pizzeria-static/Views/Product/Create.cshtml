@@ -12,13 +12,13 @@
 </head>
 <body>
     <div class="container margin-top">
-        <div class="row">
-            <div class="col-md-6">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
                 <div class="d-flex justify-content-center">
                     <img src="~/svg/Create.svg" style="width: 80%; aspect-ratio:auto;" />
                 </div>
             </div>
-            <div class="col-md-6 d-flex flex-column justify-content-center">
+            <div class="col-lg-6 d-flex flex-column justify-content-center">
                 <form asp-controller="Product" asp-action="Create" method="post">
                     @Html.AntiForgeryToken()
                     <div class="mb-3">
@@ -50,6 +50,20 @@
                             </select>
                         </div> 
                     </div>
+
+                    <div class="mb-3">
+                        <div><strong>Ingredienti:</strong></div>
+                      
+                        @for (int i = 0; i < Model.Ingredients.Count; i++)
+                        {
+                            <span class="ms-1 me-1 ingredient">
+                                <input type="checkbox" name="SelectedIngredients" value="@Model.Ingredients[i].Value"
+                                @(Model.SelectedIngredients.Contains(Model.Ingredients[i].Value) ? "checked" : "") />
+                                @Model.Ingredients[i].Text
+                            </span>
+                        }
+                    </div>
+
                     <div class="mb-3">
                         <strong class="mb-2">Descrizione:</strong>
                         <textarea asp-for="Product.Description" class="custom-form-control d-block w-100" style="resize: none; height: 60px;" rows="3" maxlength="1000"></textarea>
@@ -105,6 +119,11 @@
 
     .save-button{
         background: none;
+    }
+
+    .ingredient{
+        font-size: 1.05rem;
+        font-weight: 600;
     }
 </style>
 </html>

@@ -33,7 +33,7 @@
             <hr />
             @foreach (var product in Model)
             {
-                <div class="col-md-4 p-2">
+                <div class="col-lg-4 col-md-6 p-2">
                     <div class="product" data-url="@Url.Action("Details", "Product", new { id = product.Id })">
                         <img src="@Url.Content(product.Image)" />
                         <h4 class="pt-3">@product.Name</h4>
@@ -71,7 +71,13 @@
 
             .product p {
                 flex-grow: 1;
-                text-align:center;
+                text-align:center; 
+                font-size:1.05rem;
+            }
+
+            .product div {
+             font-size: 1.15rem;
+             font-weight: 600;
             }
     </style>
     <script>

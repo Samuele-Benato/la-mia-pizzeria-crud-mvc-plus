@@ -43,6 +43,7 @@ namespace la_mia_pizzeria_static.Controllers
             ProductFormModel model = new ProductFormModel();
             model.Product = new Product();
             model.Categories = ProductManager.GetCategories();
+            model.CreateIngredients();
             return View(model);
         }
 
@@ -52,10 +53,13 @@ namespace la_mia_pizzeria_static.Controllers
         {
             if (!ModelState.IsValid)
             {
+                data.Categories = ProductManager.GetCategories();
+                data.CreateIngredients();
+
                 return View("Create", data);
             }
 
-            ProductManager.InsertProduct(data.Product);
+            ProductManager.InsertProduct(data.Product, data.SelectedIngredients);
            
             return RedirectToAction("Index");
         }
@@ -72,6 +76,7 @@ namespace la_mia_pizzeria_static.Controllers
             else
             {
                 ProductFormModel model = new ProductFormModel(productToEdit, ProductManager.GetCategories());
+                model.CreateIngredients();
                 return View(model);
             }
         }
@@ -85,20 +90,25 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("Update", data);
             }
 
-            // MODIFICA TRAMITE LAMBDA
-            bool result = ProductManager.UpdateProduct(id, productToEdit =>
+            if (!ModelState.IsValid)
             {
-                productToEdit.Name = data.Product.Name;
-                productToEdit.Description = data.Product.Description;
-                productToEdit.Price = data.Product.Price;
-                productToEdit.CategoryId = data.Product.CategoryId;
-                //  productToEdit.Image = data.Product.Image;
-            });
+                data.Categories = ProductManager.GetCategories();
+                data.CreateIngredients();
+                return View("Update", data);
+            }
 
-            if (result == true)
+            
+            if (ProductManager.UpdateProduct(
+                id, 
+                data.Product.Name,
+                data.Product.Description,
+                data.Product.Price,
+                data.Product.CategoryId,
+                data.SelectedIngredients))
                 return RedirectToAction("Index");
             else
                 return NotFound();
+
         }
 
         [HttpPost]

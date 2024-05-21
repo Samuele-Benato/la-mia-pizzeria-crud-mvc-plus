@@ -24,6 +24,8 @@ namespace la_mia_pizzeria_static.Models
         [Required(ErrorMessage = "Il campo è obbligatorio")]
         [Range(2, 50, ErrorMessage = "il prezzo deve essere tra 2 e 50 euro")]
         public double Price { get; set; }
+        
+        public List<Ingredient>? Ingredients { get; set; }
         public Product() 
         {
           
