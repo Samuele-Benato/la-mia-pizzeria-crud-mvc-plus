@@ -1,4 +1,5 @@
 ﻿using la_mia_pizzeria_static.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
 
 namespace la_mia_pizzeria_static.Data
@@ -27,10 +28,14 @@ namespace la_mia_pizzeria_static.Data
                 return db.Categories.ToList();
         }
 
-        public static Product GetProduct(int id)
+        public static Product GetProduct(int id, bool includereferences = true)
         {
-            using (ProductContext db = new ProductContext())  
-            return db.Products.FirstOrDefault(p => p.Id == id);
+            using (ProductContext db = new ProductContext())             
+            if (includereferences)
+                    return db.Products.Where(r => r.Id == id).Include(c => c.Category).FirstOrDefault();
+
+            using (ProductContext db = new ProductContext())
+                return db.Products.FirstOrDefault(p => p.Id == id);
         }
 
         public static void InsertProduct(Product product)
