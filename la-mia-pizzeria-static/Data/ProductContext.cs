@@ -1,9 +1,11 @@
 ﻿using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace la_mia_pizzeria_static.Data
 {
-    public class ProductContext : DbContext
+    public class ProductContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<Category> Categories { get; set; }

@@ -1,5 +1,6 @@
 ﻿using la_mia_pizzeria_static.Data;
 using la_mia_pizzeria_static.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics;
@@ -28,6 +29,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN,USER")]
         public IActionResult Details(int id)
         {
             var pizza = ProductManager.GetProduct(id);
@@ -37,6 +39,7 @@ namespace la_mia_pizzeria_static.Controllers
                 return View("errore");
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -47,6 +50,7 @@ namespace la_mia_pizzeria_static.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(ProductFormModel data)
@@ -64,6 +68,7 @@ namespace la_mia_pizzeria_static.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -81,6 +86,7 @@ namespace la_mia_pizzeria_static.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, ProductFormModel data)
@@ -107,6 +113,7 @@ namespace la_mia_pizzeria_static.Controllers
 
         }
 
+        [Authorize(Roles = "ADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)
