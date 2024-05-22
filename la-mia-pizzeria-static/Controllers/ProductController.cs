@@ -84,11 +84,7 @@ namespace la_mia_pizzeria_static.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, ProductFormModel data)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View("Update", data);
-            }
+        {           
 
             if (!ModelState.IsValid)
             {
